@@ -1,0 +1,21 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+canvas {
+  display: block;
+}
+
+main{
+  width:830px;
+  height:auto;
+  margin:auto;
+  padding-left:15px;
+  padding-right:15px;
+  padding-top:5%;
+  padding-bottom:20%;
+}
+
+.center-900 {
+
+}
