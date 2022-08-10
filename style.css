@@ -1,9 +1,16 @@
+@font-face { font-family: SourceCode; src: url('./fonts/SourceCodePro-Medium.ttf'); } 
+
+
 html, body {
   margin: 0;
   padding: 0;
 }
 canvas {
   display: block;
+}
+
+h2 {
+  font-family: SourceCode;
 }
 
 main{
