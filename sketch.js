@@ -1,33 +1,3 @@
-/*
-UPDATING:
-
-1. Moved the surface to middle so it's easier to draw mirrored object <DONE>
-2. Use R coords to draw surface, easier to rotate <DONE>
-3. Create a function to copy and Mirror OBJ <DONE>
-
-4. Confusion on the other side of the mirror ( where eye is on the other side of obj)
-<< USE DOT PRODUCT <!!! - !!!Something's Wrong here>
-
-5. Add Tweakpane <DONE>
-6. Toggle Show Angle <DONE>
-  a. Calc Inc Angle <Done>
-  b. Display the angle at the Right side <DONE>
-7. Toggle Show Distance <DONE>
-8. Refactor
-
---------------------------------------
-
-a. Fix toggles -> Can't resolve conflict, so switched toggle sExt to 
-   tweakpane !!!
-b. angle indicator  <DONE>
-c. Indicate 'Same Distance' <DONE>
-d. Object virtual line <DONE>
-e. note 90' <DONE>
-f. Add Recursion 
-    -> Add one more surface -> new Norm, new tangent
-g. Ray arrow
-
-*/
 
 // COLOR
 const lGray = '#D0D0D0';
@@ -53,12 +23,21 @@ const lPink = '#E76AFB';
 const Pink = '#db53f1';
 const dPink = '#c347d7';
 
-
-// TWEAKPANE
+/*
+TWEAKPANE init
+places to instantiate toggles for visual guides, 
+element positions
+*/
 const pane = new Tweakpane.Pane();
+// add a folder var for sandbox controllers
+const sandBoxCtrls = pane.addFolder({
+  title: 'SandBoxControls',
+  expanded: true,
+  hidden: false
+});
 
 const PARAMS = {
-  
+  SandBox: true,
   ShowNewSurface: false,
   ShowEdge: false,
   SurfaceExtension: false,
@@ -69,8 +48,7 @@ const PARAMS = {
   newSurfaceAng: 0,
   SurfacePos: {x: 0, y: 0},  
   ObjPos: {x:0, y:0},
-  showSight: false,
-  Senario: false
+  showSight: false
 }
 
 // Var for checking if Observer and Object are on the same side
@@ -108,6 +86,8 @@ function preload() {
 }
 
 
+
+
 function setup() {
   angleMode(DEGREES);
   createCanvas(800, 800);
@@ -118,15 +98,19 @@ function setup() {
   textFont(sourceCode);
 
   // TWEAKPANE
-  pane.addInput(PARAMS, 'Senario');
-  pane.addInput(PARAMS, 'SurfaceExtension');
-  pane.addInput(PARAMS, 'ObjectDistance');
-  pane.addInput(PARAMS, 'ObjectRay');
-  pane.addInput(PARAMS, 'showSight');
-  pane.addInput(PARAMS, 'SurfaceAng',{
+ 
+
+  pane.addInput(PARAMS, 'SandBox');
+  sandBoxCtrls.addInput(PARAMS, 'SurfaceExtension');
+  sandBoxCtrls.addInput(PARAMS, 'ObjectDistance');
+  sandBoxCtrls.addInput(PARAMS, 'ObjectRay');
+  sandBoxCtrls.addInput(PARAMS, 'showSight');
+  sandBoxCtrls.addInput(PARAMS, 'SurfaceAng',{
    min: -90,
    max: 90 
   });
+
+ 
 
   // RAY LENGTH
   rayMax = 1200;
@@ -152,10 +136,13 @@ function draw() {
   strokeWeight(4);
   displayText = 'Click and move the Yellow Dot around';
   
-  
-  if(PARAMS.Senario){
+  // Check if toggled 'SandBox Mode'
+  if(!PARAMS.SandBox){
     execSenario();
-  }
+    sandBoxCtrls.hidden = true;
+  }else{
+    sandBoxCtrls.hidden = false;
+  };
   
   pointSize = 13;
   
@@ -686,7 +673,7 @@ function mouseDragged(){
     eyePos1.x = mouseX;
     eyePos1.y = mouseY;
     
-    if(PARAMS.Senario){
+    if(!PARAMS.SandBox){
       eyePos1.x = mouseX;
     }
   }
