@@ -44,7 +44,7 @@ const PARAMS = {
   ObjectRay: false,
   SurfaceNormal: false,
   ObjectDistance: false,
-  SurfaceAng: 34,
+  SurfaceAng: 0,
   newSurfaceAng: 0,
   SurfacePos: {x: 0, y: 0},  
   ObjPos: {x:0, y:0},
@@ -250,6 +250,8 @@ function eye(eyePos, surface){
  
   // Drag Point
   noStroke();
+  fill(255, 90);
+  ellipse(eyePos.x, eyePos.y, 42, 18);
   fill(Yellow);
   circle(eyePos.x, eyePos.y, 16);
   
